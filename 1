@@ -1,0 +1,171 @@
+#include <iostream>
+#include <string>
+#include <conio.h>
+#include <windows.h>
+
+using namespace std;
+
+int main()
+{
+    int j;                       // Продавець
+    int maxB = 10, counterB = 0; // Інвентар
+    string itemB[maxB];          //
+    int sell;                    // Дія "продати"
+
+    /*                                  Змінні перевірки                                       */
+    bool _true;
+    int k;
+    /////////////////////////////////////////////////////////////////////////////////////////////
+
+    /*                                      Інвентар                                           */
+    itemB[counterB++] = "Sword";
+    itemB[counterB++] = "Arrow";
+    itemB[counterB++] = "Bow";
+    itemB[counterB++] = "Shield";
+    itemB[counterB++] = "Apple";
+    itemB[counterB++] = "Pineapple";
+    itemB[counterB++] = "Piculs";
+    itemB[counterB++] = "Empty bottle";
+    ////////////////////////////////////////////////////////////////////////////////////////////
+
+    /*                                      Товар                                              */
+    int max = 60, counter = 0;
+    string item[max];
+
+    item[counter++] = "Battle axe";
+    item[counter++] = "Bag";
+    item[counter++] = "Water";
+    item[counter++] = "Mana";
+    item[counter++] = "Heal Potion";
+    item[counter++] = "Food";
+    item[counter++] = "Stone";
+    item[counter++] = "Boots";
+    item[counter++] = "Armor";
+    item[counter++] = "Helmet";
+    item[counter++] = "Breastplate";
+    ////////////////////////////////////////////////////////////////////////////////////////////
+
+/*                                          Дії                                                */
+mark1: //  Повернення до вибору
+    Sleep(1000);
+    system("cls");
+    for (int i = 0; i < counterB; i++)        //Вивід інвентаря
+    {                                         //
+        cout << i << " " << itemB[i] << endl; //
+    }                                         //
+
+    //
+    cout << "______________________________________________________________________" << endl;
+    ////////////////////////////////////////////////////////////////////////////////////////////
+
+    /*                                         Вибір                                           */
+    cout << "1 Buy\n";
+    cout << "2 Sell\n";
+    cout << "3 exit\n";
+    int S;
+    cout << "______________________________________________________________________" << endl;
+    cout << "Choose: ";
+    cin >> S;
+    if (S > 3 || S < 1)
+    {
+        cout << "\nYou are mistake\n";
+        goto mark1; //  Перехід до вибору
+    }
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    switch (S)
+    {
+        /*                                          Купівля                                    */
+    case 1:
+        system("cls");
+        for (j = 0; j < counter; j++)            //Вивід товару
+        {                                        //
+            cout << j << " " << item[j] << endl; //
+        }                                        //
+        cout << j << " Back";                    //
+        int B;
+        cout << "\n______________________________________________________________________\n";
+        cout << "Choose: ";
+        cin >> B; //  Вибір товару
+
+        if (B < 0 || B > counter) //Перевірка вибору
+        {                         //
+            cout << "\nNo items";   //
+            Sleep(1000);          //
+            goto mark1;           //Перехід до вибору
+        }
+        /*                        Пошук порожнього місця в інвентарі                           */
+        for (k = 0; k < maxB; k++)
+        {
+            if (itemB[k].size() == 0)
+            {
+                _true = true;
+                break;
+            }
+            _true = false;
+        }
+        ////////////////////////////////////////////////////////////////////////////////////////////
+        if (B < j && _true == true)          // Купівля
+        {                                    //
+            if (counterB < maxB)             // Купівля до надлишковості
+            {                                //
+                itemB[counterB++] = item[B]; //
+                goto mark1;                  // Перехід до вибору
+            }
+            else if (counterB == maxB)             //  Купівля (заповнення пустих комірок)
+            {                                      //
+                for (int i = 0; i < counterB; i++) //
+                {                                  //
+                    if (itemB[i].size() == 0)      //
+                    {                              //
+                        itemB[i] = item[B];        //
+                        break;                     //
+                    }                              //
+                }                                  //
+            }                                      //
+        }
+        else if (_true == false)            //  Переповнення інвентаря
+        {                                   //
+            cout << "\nThe bag is full!\n"; //
+        }
+
+        goto mark1; //  Перехід до вибору
+        break;
+        /*                                     Продаж                                          */
+    case 2:
+    system("cls");
+        for (int i = 0; i < counterB; i++)        //  Інвентар
+        {                                         //
+            cout << i << " " << itemB[i] << endl; //
+        }
+
+        cout << "\nWhat need to sell?\n";
+        cin >> sell;                         //Вибір товару на продаж
+        if (sell < 0 || sell > counterB - 1) //Перевірка
+        {                                    //
+            cout << "\nYou are mistake\n";   //
+            Sleep(1000);                     //
+            goto mark1;                      //Перехід до вибору
+        }
+
+        else                     // Продаж товару
+            itemB[sell].erase(); //
+
+        goto mark1; // Перехід до вибору
+        break;
+        /*                   Вихід                  */
+    case 3:
+        break;
+        /*                  Перевірка               */
+    default:
+        cout << "\nYou are mistake\n";
+        break;
+    }
+
+    system("cls");
+    cout << "Good Bye!";
+
+    if (_getch() == 27) //  Затримка виходу
+        exit(0);        //
+
+    return 0;
+}
